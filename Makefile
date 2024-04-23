@@ -6,7 +6,7 @@ SRC		=	$(shell find src -type f -name '*.c')
 
 OBJ		=	$(SRC:%.c=$(TMPDIR)/%.o)
 
-CFLAGS	+=	-Wall -Wextra -Iinclude
+CFLAGS	+=	-Iinclude -lpthread -D_REENTRANT
 
 $(NAME): $(OBJ)
 	gcc -o $@ $^ $(CFLAGS)
