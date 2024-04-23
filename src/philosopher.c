@@ -6,6 +6,7 @@
 
 philosopher_t *ph_create(size_t plates, pthread_mutex_t *f1, pthread_mutex_t *f2)
 {
+    static size_t id = 1;
     philosopher_t *ph = NULL;
 
     ph = malloc(sizeof(philosopher_t));
@@ -14,6 +15,8 @@ philosopher_t *ph_create(size_t plates, pthread_mutex_t *f1, pthread_mutex_t *f2
     ph->f1 = f1;
     ph->f2 = f2;
     ph->plates = plates;
+    ph->id = id;
+    id++;
     return ph;
 }
 

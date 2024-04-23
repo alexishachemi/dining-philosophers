@@ -10,7 +10,7 @@ static const char *help_msg = \
 
 int init_dining_table(unsigned int nb_ph, unsigned int nb_plates)
 {
-    pthread_t threads;
+    pthread_t threads[nb_ph];
     pthread_mutex_t forks[nb_ph];
     philosopher_t *ph = NULL;
 
@@ -22,10 +22,10 @@ int init_dining_table(unsigned int nb_ph, unsigned int nb_plates)
     }
     for (size_t i = 0; i < nb_ph; i++) {
         ph = ph_create(nb_plates, &forks[i % nb_ph], &forks[(i + 1) % nb_ph]);
-        ph->id = i + 1;
-        pthread_create(&threads, NULL, ph_add, ph);
+        pthread_create(&threads[i], NULL, ph_add, ph);
     }
-    pthread_join(threads, NULL);
+    for (size_t i = 0; i < nb_ph; i++)
+        pthread_join(threads[i], NULL);
     for (size_t i = 0; i < nb_ph; i++)
         pthread_mutex_destroy(&forks[i]);
     return EXIT_SUCCESS;
